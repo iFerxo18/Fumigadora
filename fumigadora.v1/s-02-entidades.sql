@@ -2,8 +2,8 @@
 --            ROMERO PEDRAZA FRANCESCA MELANIA
 --            SANTIAGO PEREZ DANIELA
 --            CUELLAR URIBE FERNANDO.
---@Fecha creación: 29/11/2022.
---@Descripción: CREACION TABLAS DEL CASO DE ESTUDIO 
+--@Fecha creaci n: 29/11/2022.
+--@Descripci n: CREACION TABLAS DEL CASO DE ESTUDIO 
 
 Prompt conectando con el usuario administrador.
 connect jrsc_proy_admin/qwerty;
@@ -46,7 +46,7 @@ CREATE TABLE DEPARTAMENTO(
     constraint departamento_pk primary key (sucursal_id,departamento_id),
     constraint departamento_sucursal_id_fk foreign key(sucursal_id)
       references sucursal(sucursal_id),
-    constraint departamento_tipo_chk check(tipo in ('VENTAS', 'APLICACIÓN DE SERVICIOS', 'MECÁNICA'))
+    constraint departamento_tipo_chk check(tipo in ('VENTAS', 'APLICACI N DE SERVICIOS', 'MEC NICA'))
 );
 
 -------------------------------------------------------------------------------------------------------------
@@ -141,7 +141,7 @@ CREATE TABLE PRODUCTO(
    descripcion            varchar2(40)    not null,
    tipo_producto          varchar2(15)    not null,
    constraint producto_id_pk primary key (producto_id),
-   constraint producto_tipo_ck check (tipo_producto in('GEL', 'LÍQUIDO', 'AIRE'))
+   constraint producto_tipo_ck check (tipo_producto in('GEL', 'L QUIDO', 'AIRE'))
 );
 
 -------------------------------------------------------------------------------------------------------------
@@ -164,9 +164,13 @@ CREATE TABLE PRODUCTO(
 --------------------------------------------CREANDO TABLA AUTO-----------------------------------------------
 -------------------------------------------------------------------------------------------------------------
 
---CREATE TABLE AUTO(
-    
---);
+CREATE TABLE AUTO(
+    auto_id            number(2,0)     not null,
+    placa              varchar2(7)     not null,
+    modelo             varchar2(20)    not null,
+    color              varchar2(10)    not null,
+    constraint uq_placa unique (placa)
+);
 
 -------------------------------------------------------------------------------------------------------------
 --------------------------------------------CREANDO TABLA REPARA---------------------------------------------
@@ -189,7 +193,15 @@ CREATE TABLE PRODUCTO(
 -------------------------------------------------------------------------------------------------------------
 
 --CREATE TABLE CONTRATACION(
-    
+    noContrataCon      number(4,0)     not null,
+    cliente_id         number(4,0)      not null,
+    empleado_id        number(3,0)     not null,
+    fecha_iCont        date            not null,
+    constraint contratacion_cliente_id_fk foreign key (cliente_id) references cliente(cliente_id),
+    constraint contratacion_empleado_id_fk foreign key (empleado_id) references empleado(empleado_id),
+    constraint uq_fecha_iCont unique (fecha_iCont),
+    constraint uq_cliente_id unique (cliente_id),
+    constraint uq_empleado_id unique (empleado_id)
 --);
 
 -------------------------------------------------------------------------------------------------------------
@@ -212,16 +224,26 @@ CREATE TABLE CLIENTE(
 ----------------------------------------------CREANDO EMPRESA---------------------------------------------
 -------------------------------------------------------------------------------------------------------------
 
---CREATE TABLE EMPRESA(
-    
---);
+CREATE TABLE EMPRESA(
+    cliente_id         number(4,0)      not null,
+    rfcEmpr            varchar2(13)     not null,
+    nombre_empresa     varchar2(40)     not null,
+    constraint empresa_pk primary key (cliente_id),
+    constraint uq_rfcEmpr unique (rfcEmpr),
+    constraint empresa_cliente_id_fk foreign key (cliente_id) references cliente(cliente_id)
+);
 
 -------------------------------------------------------------------------------------------------------------
 -----------------------------------------CREANDO TABLA PERSONA-----------------------------------------------
 -------------------------------------------------------------------------------------------------------------
 
---CREATE TABLE PERSONA(
-    
---);
+CREATE TABLE PERSONA(
+    cliente_id         number(4,0)      not null,
+    nombrepiper        varchar2(30)     not null,
+    ap_paternoPiper    varchar2(20)     not null,
+    ap_maternoPiper    varchar2(20)     not null,
+    emailP             varchar2(40)     not null,
+    constraint persona_pk primary key (cliente_id)
+);
 
 
